@@ -1,0 +1,30 @@
+version: "3"
+services:
+  api:
+    image: php:7.4
+    ports:
+      - 80:80
+    env_file: .env
+    volumes:
+      - ../:/src/
+    working_dir: /src/
+    tty: true
+    depends_on:
+      - db
+  phpmyadmin:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
+    env_file: .env
+    expose:
+      - 8080
+    depends_on:
+      - db
+  db:
+    image: postgres:9.6
+    restart: always
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
